@@ -22,7 +22,7 @@
 - ライブラリとしての利用を可能にするために `__init__.py` を更新
 - README にライブラリとしての使用方法を追加
 - バージョニングに関する説明を明確化（タグのバージョンがそのまま PyPI のバージョンになることを明記）
-- `pyproject.toml`の設定を修正し、タグのバージョンがそのまま PyPI のバージョンになるように設定（`version_scheme = "no-guess-dev"`を追加）
+- `pyproject.toml`の設定を修正し、タグのバージョンがそのまま PyPI のバージョンになるように設定（`version_scheme = "release-branch-semver"`、`local_scheme = "no-local"`に変更）
 
 ## 次のステップ
 
