@@ -1,0 +1,12 @@
+README.md
+setup.py
+sgmap/__init__.py
+sgmap/cli.py
+sgmap/core.py
+sgmap.egg-info/PKG-INFO
+sgmap.egg-info/SOURCES.txt
+sgmap.egg-info/dependency_links.txt
+sgmap.egg-info/entry_points.txt
+sgmap.egg-info/requires.txt
+sgmap.egg-info/top_level.txt
+tests/__init__.py
