@@ -97,6 +97,36 @@ flowchart LR
 - click
 - AWS 認証情報（環境変数、~/.aws/credentials など）
 
+## 開発者向け情報
+
+### 開発環境のセットアップ
+
+```bash
+git clone https://github.com/youyo/sgmap.git
+cd sgmap
+pip install -e ".[dev]"
+```
+
+### リリース方法
+
+このプロジェクトは GitHub Actions を使用して PyPI にパッケージを公開しています。以下の手順でリリースを行います：
+
+1. バージョンタグを作成します（例：`v0.1.0`）
+
+   ```bash
+   git tag -a v0.1.0 -m "Release version 0.1.0"
+   git push origin v0.1.0
+   ```
+
+2. GitHub Actions が自動的にパッケージをビルドし、PyPI に公開します。
+
+### ローカルでのビルド
+
+```bash
+pip install -r requirements-dev.txt
+python -m build
+```
+
 ## ライセンス
 
 MIT

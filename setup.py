@@ -5,9 +5,9 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="sgmap",
-    version="0.1.0",
+    use_scm_version=True,
     author="youyo",
-    author_email="youyo@example.com",
+    author_email="1003ni@gmail.com",
     description="AWS Security Group Mapping Tool",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -23,6 +23,15 @@ setup(
         "boto3>=1.20.0",
         "click>=8.0.0",
     ],
+    extras_require={
+        "dev": [
+            "build>=0.7.0",
+            "setuptools>=42.0.0",
+            "setuptools_scm>=6.2.0",
+            "wheel>=0.37.0",
+            "twine>=3.4.2",
+        ],
+    },
     entry_points={
         "console_scripts": [
             "sgmap=sgmap.cli:main",
