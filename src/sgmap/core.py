@@ -173,7 +173,7 @@ def generate_mermaid_diagram(connections: Dict[str, Any], include_vpc: bool = Fa
     # Add VPC node if include_vpc is True
     if include_vpc:
         vpc_name = vpc['name'] if vpc['name'] else vpc_id
-        vpc_label = f"{vpc_name}\\n({vpc_id})\\n{vpc['cidr']}"
+        vpc_label = f"{vpc_name}<br>({vpc_id})<br>{vpc['cidr']}"
         mermaid.append(f"    {vpc_node_id}[\"🌐 {vpc_label}\"]")
     
     # Add security group nodes
@@ -184,9 +184,9 @@ def generate_mermaid_diagram(connections: Dict[str, Any], include_vpc: bool = Fa
         tag_info = ""
         for tag in sg_data['tags']:
             if tag.get('Key') != 'Name':  # Name is already in the label
-                tag_info += f"\\n{tag.get('Key')}: {tag.get('Value')}"
+                tag_info += f"<br>{tag.get('Key')}: {tag.get('Value')}"
         
-        node_label = f"{sg_data['name']}\\n({sg_id}){tag_info}"
+        node_label = f"{sg_data['name']}<br>({sg_id}){tag_info}"
         mermaid.append(f"    {node_id}[\"{node_label}\"]")
         
         # Add VPC to security group connection if include_vpc is True
@@ -215,7 +215,7 @@ def generate_mermaid_diagram(connections: Dict[str, Any], include_vpc: bool = Fa
                 cidr_node = f"CIDR_{cidr_id}"
                 cidr_label = conn['id']
                 if conn['description']:
-                    cidr_label += f"\\n({conn['description']})"
+                    cidr_label += f"<br>({conn['description']})"
                 
                 # Add CIDR node
                 mermaid.append(f"    {cidr_node}[\"🔌 {cidr_label}\"]")
@@ -243,7 +243,7 @@ def generate_mermaid_diagram(connections: Dict[str, Any], include_vpc: bool = Fa
                 cidr_node = f"CIDR_{cidr_id}"
                 cidr_label = conn['id']
                 if conn['description']:
-                    cidr_label += f"\\n({conn['description']})"
+                    cidr_label += f"<br>({conn['description']})"
                 
                 # Add CIDR node
                 mermaid.append(f"    {cidr_node}[\"🔌 {cidr_label}\"]")
@@ -267,7 +267,6 @@ def generate_mermaid_diagram(connections: Dict[str, Any], include_vpc: bool = Fa
         mermaid.append(f"    linkStyle {','.join(map(str, outbound_links))} stroke:#555555,stroke-width:2")
     
     mermaid.append("```")
-    return "\n".join(mermaid)
     return "\n".join(mermaid)
 
 
