@@ -2,6 +2,8 @@
 
 `sgmap`は、AWS のセキュリティグループの接続関係を可視化するための CLI ツールおよびライブラリです。指定した VPC 内のセキュリティグループ間の接続関係を mermaid 記法のフローチャートまたは JSON 形式で出力します。
 
+[![PyPI version](https://badge.fury.io/py/sgmap.svg)](https://pypi.org/project/sgmap/)
+
 ## 機能
 
 - 指定した VPC 内のすべてのセキュリティグループの接続関係を分析
@@ -11,6 +13,8 @@
 - CLI ツールとしての使用だけでなく、Python ライブラリとしても利用可能
 
 ## インストール
+
+sgmap は [PyPI](https://pypi.org/project/sgmap/) で公開されています。
 
 ### pip を使用したインストール
 
@@ -39,6 +43,9 @@ sgmap --vpc-id vpc-12345678 --security-group-id sg-87654321
 
 # JSON形式で出力
 sgmap --vpc-id vpc-12345678 --json
+
+# VPCを含めずにセキュリティグループの接続のみを表示
+sgmap --vpc-id vpc-12345678 --no-vpc
 ```
 
 #### オプション
@@ -46,6 +53,7 @@ sgmap --vpc-id vpc-12345678 --json
 - `--vpc-id`, `-v` (必須): 分析対象の VPC ID
 - `--security-group-id`, `-s` (オプション): 特定のセキュリティグループ ID を指定して分析
 - `--json`, `-j` (フラグ): JSON 形式で出力（デフォルトは mermaid 記法）
+- `--no-vpc` (フラグ): mermaid ダイアグラムに VPC を含めない（セキュリティグループとその接続のみを表示）
 
 ### ライブラリとしての使用方法
 
