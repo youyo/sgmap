@@ -1,2 +1,0 @@
-[console_scripts]
-sgmap = sgmap.cli:main
