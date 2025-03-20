@@ -23,6 +23,8 @@
 - README にライブラリとしての使用方法を追加
 - バージョニングに関する説明を明確化（タグのバージョンがそのまま PyPI のバージョンになることを明記）
 - `pyproject.toml`の設定を修正し、タグのバージョンがそのまま PyPI のバージョンになるように設定（`version_scheme = "release-branch-semver"`、`local_scheme = "no-local"`に変更）
+- mermaid 図で inbound と outbound の線の色を区別するように修正（inbound は薄いグレー#aaaaaa、outbound は濃いグレー#777777）
+- mermaid 図の色指定を linkStyle を使用した実装に修正し、エラーを解消
 
 ## 次のステップ
 

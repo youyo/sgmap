@@ -147,7 +147,6 @@ def analyze_security_group_connections(vpc_and_sgs: Dict[str, Any]) -> Dict[str,
     
     return connections
 
-
 def generate_mermaid_diagram(connections: Dict[str, Any], include_vpc: bool = True) -> str:
     """
     Generate a mermaid diagram from security group connections.
@@ -160,6 +159,12 @@ def generate_mermaid_diagram(connections: Dict[str, Any], include_vpc: bool = Tr
         Mermaid diagram as a string
     """
     mermaid = ["```mermaid", "flowchart LR"]
+    
+    # Track link indices
+    link_index = 0
+    vpc_links = []
+    inbound_links = []
+    outbound_links = []
     
     vpc = connections['vpc']
     vpc_id = vpc['id']
@@ -187,6 +192,8 @@ def generate_mermaid_diagram(connections: Dict[str, Any], include_vpc: bool = Tr
         # Add VPC to security group connection if include_vpc is True
         if include_vpc:
             mermaid.append(f"    {vpc_node_id} -->|belongs to| {node_id}")
+            vpc_links.append(link_index)
+            link_index += 1
     
     # Add security group connections
     for sg_id, sg_data in connections['security_groups'].items():
@@ -200,6 +207,8 @@ def generate_mermaid_diagram(connections: Dict[str, Any], include_vpc: bool = Tr
                 ports = f"{conn['from_port']}-{conn['to_port']}" if conn['from_port'] != 'all' else 'all'
                 label = f"inbound: {protocol}/{ports}"
                 mermaid.append(f"    {target_node} -->|{label}| {source_node}")
+                inbound_links.append(link_index)
+                link_index += 1
             elif conn['type'] == 'cidr':
                 # Create a CIDR node for external connections
                 cidr_id = conn['id'].replace('.', '_').replace('/', '_')
@@ -215,6 +224,8 @@ def generate_mermaid_diagram(connections: Dict[str, Any], include_vpc: bool = Tr
                 ports = f"{conn['from_port']}-{conn['to_port']}" if conn['from_port'] != 'all' else 'all'
                 label = f"inbound: {protocol}/{ports}"
                 mermaid.append(f"    {cidr_node} -->|{label}| {source_node}")
+                inbound_links.append(link_index)
+                link_index += 1
         
         # Add outbound connections (security group -> 許可している接続先)
         for conn in sg_data['outbound']:
@@ -224,6 +235,8 @@ def generate_mermaid_diagram(connections: Dict[str, Any], include_vpc: bool = Tr
                 ports = f"{conn['from_port']}-{conn['to_port']}" if conn['from_port'] != 'all' else 'all'
                 label = f"outbound: {protocol}/{ports}"
                 mermaid.append(f"    {source_node} -->|{label}| {target_node}")
+                outbound_links.append(link_index)
+                link_index += 1
             elif conn['type'] == 'cidr':
                 # Create a CIDR node for external connections
                 cidr_id = conn['id'].replace('.', '_').replace('/', '_')
@@ -239,8 +252,22 @@ def generate_mermaid_diagram(connections: Dict[str, Any], include_vpc: bool = Tr
                 ports = f"{conn['from_port']}-{conn['to_port']}" if conn['from_port'] != 'all' else 'all'
                 label = f"outbound: {protocol}/{ports}"
                 mermaid.append(f"    {source_node} -->|{label}| {cidr_node}")
+                outbound_links.append(link_index)
+                link_index += 1
+    
+    # Add link styles
+    if vpc_links:
+        # VPC links can remain default color
+        pass
+    
+    if inbound_links:
+        mermaid.append(f"    linkStyle {','.join(map(str, inbound_links))} stroke:#aaaaaa")
+    
+    if outbound_links:
+        mermaid.append(f"    linkStyle {','.join(map(str, outbound_links))} stroke:#777777")
     
     mermaid.append("```")
+    return "\n".join(mermaid)
     return "\n".join(mermaid)
 
 
