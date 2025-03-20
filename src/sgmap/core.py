@@ -148,25 +148,28 @@ def analyze_security_group_connections(vpc_and_sgs: Dict[str, Any]) -> Dict[str,
     return connections
 
 
-def generate_mermaid_diagram(connections: Dict[str, Any]) -> str:
+def generate_mermaid_diagram(connections: Dict[str, Any], include_vpc: bool = True) -> str:
     """
     Generate a mermaid diagram from security group connections.
     
     Args:
         connections: Dictionary with VPC info and security group connections
+        include_vpc: Whether to include VPC in the diagram (default: True)
         
     Returns:
         Mermaid diagram as a string
     """
     mermaid = ["```mermaid", "flowchart LR"]
     
-    # Add VPC node
     vpc = connections['vpc']
     vpc_id = vpc['id']
-    vpc_name = vpc['name'] if vpc['name'] else vpc_id
     vpc_node_id = f"VPC_{vpc_id.replace('-', '_')}"
-    vpc_label = f"{vpc_name}\\n({vpc_id})\\n{vpc['cidr']}"
-    mermaid.append(f"    {vpc_node_id}[\"🌐 {vpc_label}\"]")
+    
+    # Add VPC node if include_vpc is True
+    if include_vpc:
+        vpc_name = vpc['name'] if vpc['name'] else vpc_id
+        vpc_label = f"{vpc_name}\\n({vpc_id})\\n{vpc['cidr']}"
+        mermaid.append(f"    {vpc_node_id}[\"🌐 {vpc_label}\"]")
     
     # Add security group nodes
     for sg_id, sg_data in connections['security_groups'].items():
@@ -181,8 +184,9 @@ def generate_mermaid_diagram(connections: Dict[str, Any]) -> str:
         node_label = f"{sg_data['name']}\\n({sg_id}){tag_info}"
         mermaid.append(f"    {node_id}[\"{node_label}\"]")
         
-        # Add VPC to security group connection
-        mermaid.append(f"    {vpc_node_id} -->|belongs to| {node_id}")
+        # Add VPC to security group connection if include_vpc is True
+        if include_vpc:
+            mermaid.append(f"    {vpc_node_id} -->|belongs to| {node_id}")
     
     # Add security group connections
     for sg_id, sg_data in connections['security_groups'].items():

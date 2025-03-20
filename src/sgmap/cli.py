@@ -29,7 +29,12 @@ from sgmap.core import (
     is_flag=True,
     help='Output in JSON format instead of mermaid diagram'
 )
-def main(vpc_id: str, security_group_id: Optional[str] = None, json: bool = False) -> None:
+@click.option(
+    '--no-vpc',
+    is_flag=True,
+    help='Do not include VPC in the mermaid diagram (only security groups and their connections)'
+)
+def main(vpc_id: str, security_group_id: Optional[str] = None, json: bool = False, no_vpc: bool = False) -> None:
     """
     AWS Security Group Mapping Tool.
     
@@ -56,7 +61,7 @@ def main(vpc_id: str, security_group_id: Optional[str] = None, json: bool = Fals
         if json:
             output = generate_json_output(connections)
         else:
-            output = generate_mermaid_diagram(connections)
+            output = generate_mermaid_diagram(connections, not no_vpc)
         
         click.echo(output)
         
