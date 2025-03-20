@@ -46,8 +46,8 @@ sgmap --vpc-id vpc-12345678 --security-group-id sg-87654321
 # JSON形式で出力
 sgmap --vpc-id vpc-12345678 --json
 
-# VPCを含めずにセキュリティグループの接続のみを表示
-sgmap --vpc-id vpc-12345678 --no-vpc
+# VPCを含めてセキュリティグループの接続を表示
+sgmap --vpc-id vpc-12345678 --with-vpc
 ```
 
 #### オプション
@@ -55,7 +55,7 @@ sgmap --vpc-id vpc-12345678 --no-vpc
 - `--vpc-id`, `-v` (必須): 分析対象の VPC ID
 - `--security-group-id`, `-s` (オプション): 特定のセキュリティグループ ID を指定して分析
 - `--json`, `-j` (フラグ): JSON 形式で出力（デフォルトは mermaid 記法）
-- `--no-vpc` (フラグ): mermaid ダイアグラムに VPC を含めない（セキュリティグループとその接続のみを表示）
+- `--with-vpc` (フラグ): mermaid ダイアグラムに VPC を含める（デフォルトではセキュリティグループとその接続のみを表示）
 
 ### ライブラリとしての使用方法
 
