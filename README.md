@@ -3,6 +3,8 @@
 `sgmap`は、AWS のセキュリティグループの接続関係を可視化するための CLI ツールおよびライブラリです。指定した VPC 内のセキュリティグループ間の接続関係を mermaid 記法のフローチャートまたは JSON 形式で出力します。
 
 [![PyPI version](https://badge.fury.io/py/sgmap.svg)](https://pypi.org/project/sgmap/)
+[![GitHub Actions Status](https://github.com/youyo/sgmap/actions/workflows/publish.yaml/badge.svg)](https://github.com/youyo/sgmap/actions/workflows/publish.yaml)
+[![GitHub Actions Status](https://github.com/youyo/sgmap/actions/workflows/test.yml/badge.svg)](https://github.com/youyo/sgmap/actions/workflows/test.yml)
 
 ## 機能
 
