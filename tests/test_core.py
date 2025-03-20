@@ -146,7 +146,7 @@ class TestGenerateMermaidDiagram:
         # First analyze the connections
         connections = analyze_security_group_connections(sample_vpc_and_sgs)
 
-        # Then generate the diagram
+        # Then generate the diagram with VPC explicitly included
         diagram = generate_mermaid_diagram(connections, include_vpc=True)
 
         # Verify the diagram structure
@@ -168,12 +168,12 @@ class TestGenerateMermaidDiagram:
         assert 'outbound: tcp/3306' in diagram
 
     def test_generate_mermaid_diagram_without_vpc(self, sample_vpc_and_sgs):
-        """Test generate_mermaid_diagram without VPC included"""
+        """Test generate_mermaid_diagram without VPC included (default behavior)"""
         # First analyze the connections
         connections = analyze_security_group_connections(sample_vpc_and_sgs)
 
-        # Then generate the diagram
-        diagram = generate_mermaid_diagram(connections, include_vpc=False)
+        # Then generate the diagram with default settings (no VPC)
+        diagram = generate_mermaid_diagram(connections)
 
         # Verify the diagram structure
         assert diagram.startswith('```mermaid')

@@ -40,7 +40,7 @@ class TestCli:
         # Verify the function calls
         mock_get_sg.assert_called_once_with('vpc-12345678', None)
         mock_analyze.assert_called_once_with(sample_vpc_and_sgs)
-        mock_generate_mermaid.assert_called_once_with({'vpc': {}, 'security_groups': {}}, True)
+        mock_generate_mermaid.assert_called_once_with({'vpc': {}, 'security_groups': {}}, False)
 
     @patch('sgmap.cli.get_security_groups')
     @patch('sgmap.cli.analyze_security_group_connections')
@@ -90,23 +90,23 @@ class TestCli:
     @patch('sgmap.cli.get_security_groups')
     @patch('sgmap.cli.analyze_security_group_connections')
     @patch('sgmap.cli.generate_mermaid_diagram')
-    def test_main_with_no_vpc_option(
+    def test_main_with_with_vpc_option(
         self, mock_generate_mermaid, mock_analyze, mock_get_sg, cli_runner, sample_vpc_and_sgs
     ):
-        """Test main function with no-vpc option"""
+        """Test main function with with-vpc option"""
         # Setup mocks
         mock_get_sg.return_value = sample_vpc_and_sgs
         mock_analyze.return_value = {'vpc': {}, 'security_groups': {}}
         mock_generate_mermaid.return_value = "```mermaid\nflowchart LR\n```"
 
         # Run the CLI command
-        result = cli_runner.invoke(main, ['--vpc-id', 'vpc-12345678', '--no-vpc'])
+        result = cli_runner.invoke(main, ['--vpc-id', 'vpc-12345678', '--with-vpc'])
 
         # Verify the result
         assert result.exit_code == 0
 
         # Verify the function calls
-        mock_generate_mermaid.assert_called_once_with({'vpc': {}, 'security_groups': {}}, False)
+        mock_generate_mermaid.assert_called_once_with({'vpc': {}, 'security_groups': {}}, True)
 
     @patch('sgmap.cli.get_security_groups')
     def test_main_vpc_not_found(self, mock_get_sg, cli_runner):

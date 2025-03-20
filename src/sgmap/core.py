@@ -147,7 +147,7 @@ def analyze_security_group_connections(vpc_and_sgs: Dict[str, Any]) -> Dict[str,
     
     return connections
 
-def generate_mermaid_diagram(connections: Dict[str, Any], include_vpc: bool = True) -> str:
+def generate_mermaid_diagram(connections: Dict[str, Any], include_vpc: bool = False) -> str:
     """
     Generate a mermaid diagram from security group connections.
     
@@ -261,10 +261,10 @@ def generate_mermaid_diagram(connections: Dict[str, Any], include_vpc: bool = Tr
         pass
     
     if inbound_links:
-        mermaid.append(f"    linkStyle {','.join(map(str, inbound_links))} stroke:#aaaaaa")
+        mermaid.append(f"    linkStyle {','.join(map(str, inbound_links))} stroke:#cccccc,stroke-width:2")
     
     if outbound_links:
-        mermaid.append(f"    linkStyle {','.join(map(str, outbound_links))} stroke:#777777")
+        mermaid.append(f"    linkStyle {','.join(map(str, outbound_links))} stroke:#555555,stroke-width:2")
     
     mermaid.append("```")
     return "\n".join(mermaid)
